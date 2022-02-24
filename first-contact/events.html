@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VueJS first contact</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app" v-on:mousemove="updateMouseCoordinates">
+            <h2>{{ counter }}</h2>
+            <button v-on:click="add">Add 1</button>
+
+            <!-- the order of the params is arbitrary, as long as $event is written exaclty this way -->
+            <button v-on:click="addWithParams(5, $event)">Add 5</button>
+
+            <p>Mouse: x={{ mouseX }}, y={{ mouseY }} </p>
+
+            <!-- javascript way to modify an event -->
+            <div v-on:mousemove="stopMouseMoveEvent" style="width: 130px; height:130px; background-color: red;">
+                <span>Here the mousemove will not work</span>
+            </div>
+
+            <!-- vue way to modify an event -->
+            <div v-on:mousemove.stop style="width: 130px; height:130px; background-color: aqua;">
+                <span>Here the mousemove will also not work, but using Vue internal syntax</span>
+            </div>
+
+            <!-- another common event modifier is preventDefault -->
+            <a v-on:click.prevent href="http://google.com">This link will not send you to google</a>
+            <!-- event modifiers can be concatenated, like v-on:click.stop.prevent -->
+
+            <br>
+            <br>
+
+            <span>this input will show an alert if press alt+enter:</span>
+            <input type="text" v-on:keyup.enter.alt="showAlert">
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    counter: 0,
+                    mouseX: 0,
+                    mouseY: 0
+                },
+                methods: {
+                    add() {
+                        this.counter++
+                    },
+                    addWithParams(step, e) {
+                        console.log(e);
+                        this.counter += step;
+                    },
+                    updateMouseCoordinates(e) {
+                        this.mouseX = e.clientX;
+                        this.mouseY = e.clientY;
+                    },
+                    stopMouseMoveEvent(e) {
+                        e.stopPropagation();
+                    },
+                    showAlert() {
+                        alert("You pressed alt+enter")
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

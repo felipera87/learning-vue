@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VueJS first contact</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- template works as a fragment in react, it will render everything inside without any parent element -->
+            <template v-if="isLoggedIn">
+                <p>Welcome {{ username }}</p>
+                <p>Profile: Admin</p>
+            </template>
+            <!-- for v-else-if or v-else to work they need to be in sequence, one after another, can't have another element between them  -->
+            <p v-else-if="isAnonymous">Browsing as an anonymous user</p>
+            <p v-else>Please log in</p>
+
+
+            <button type="button" @click="isLoggedIn = !isLoggedIn">{{ isLoggedIn ? 'Log out' : 'Log in' }}</button>
+            <input type="checkbox" v-model="isAnonymous">Browse as anonymous</button>
+
+            <hr>
+            <!-- this will not remove the element from the DOM, it will style it with display: none -->
+            <footer v-show="isLoggedIn">
+                Logged in footer
+            </footer>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    username: 'felipe',
+                    isLoggedIn: false,
+                    isAnonymous: false
+                },
+            })
+        </script>
+    </body>
+</html>

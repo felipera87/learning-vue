@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Concepts</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <component></component>
+        <component></component>
+        <component></component>
+    </div>
+    
+    <script>
+        const sameReferenceData = {
+            title: 'this will be shared with all components'
+        }
+
+        // Vue have a method to create global components, it is used when the object is created
+        Vue.component('component', {
+            template: `
+                <div>
+                    <h1>{{ title }}</h1>
+                    <button type="button" @click="updateTitle">update title</button>
+                </div>
+            `,
+
+            // data needs to be a function that returns a object so a new object is always created when rendering the component
+            data: function () {
+                return {
+                    title: 'component initial concepts'
+                }
+            },
+
+            // this will work, but all components will share the same object
+            // data: function () {
+            //     return sameReferenceData
+            // },
+            
+            methods: {
+                updateTitle() {
+                    this.title = `${this.title}!`;
+                },
+            }
+        })
+
+        new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+</html>

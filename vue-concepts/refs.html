@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Concepts</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1 ref="firstRef">{{ title }}</h1>
+        <h2 ref="secondRef">some static text</h2>
+        <h2 ref="thirdRef"></h2>
+        
+        <button type="button" @click="updateTitle">update title using vue internals</button>
+        <button type="button" @click="updateFirstRef">update h1 using refs</button>
+        <button type="button" @click="updateSecondRef">update h2 using refs</button>
+    </div>
+    
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                title: 'using refs on vue',
+            },
+            methods: {
+                updateTitle() {
+                    this.title = `${this.title}!`;
+                },
+                updateFirstRef() {
+                    // here we are updating directly on DOM, it will break vue internals that handles title
+                    this.$refs.firstRef.innerText = "updated by ref";
+                },
+                updateSecondRef() {
+                    // This will actually work since the h2 element have static content
+                    this.$refs.secondRef.innerText = "updated by ref";
+                },
+            }
+        });
+
+        vm.$refs.thirdRef.innerText = "updated externally using ref";
+    </script>
+</body>
+</html>

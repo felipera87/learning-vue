@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Concepts</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <h1>this is app1</h1>
+        <comp></comp>
+        <comp></comp>
+        <comp></comp>
+    </div>
+    <div id="app2">
+        <h1>this is app2</h1>
+        <other-comp></other-comp>
+        <other-comp></other-comp>
+        <other-comp></other-comp>
+    </div>
+    
+    <script>
+        const component = {
+            template: `
+                <div>
+                    <h1>{{ title }}</h1>
+                    <button type="button" @click="updateTitle">update title</button>
+                </div>
+            `,
+            data: function () {
+                return {
+                    title: 'Local component registration'
+                }
+            },
+            methods: {
+                updateTitle() {
+                    this.title = `${this.title}!`;
+                },
+            }
+        }
+
+        new Vue({
+            el: "#app1",
+            components: {
+                comp: component,
+            }
+        });
+
+        // this vue instance doesn't know component as comp, but as other-comp
+        new Vue({
+            el: "#app2",
+            components: {
+                'other-comp': component,
+            }
+        });
+    </script>
+</body>
+</html>

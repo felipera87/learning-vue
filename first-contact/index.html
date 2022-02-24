@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VueJS first contact</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1>{{ welcome() }}</h1>
+            <!-- this will render just once, if title changes later this will not be updated -->
+            <h2 v-once>{{ title }}</h2>
+
+            <input type="text" v-on:input="updateTitle">
+            <h3>{{ title }}</h3>
+
+            <!-- v-bind can be used with any attribute, href="{{ link }}" will not work -->
+            <a v-bind:href="link">Google</a>
+
+            <!-- v-html is a way to insert html code from a string to be interpreted by the browser -->
+            <div v-html="htmlLink"></div>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    title: 'Using VueJS',
+                    link: 'http://google.com',
+                    htmlLink: '<a href="http://google.com">Google again</a>'
+                },
+                methods: {
+                    updateTitle(event) {
+                        this.title = event.target.value;
+                    },
+                    welcome: function() {
+                        return 'Welcome!'
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

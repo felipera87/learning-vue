@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VueJS first contact</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+           <ul>
+               <!-- color is propagated to everything, including attributes -->
+               <li v-for="color in colors" :style="{color: color}">{{ color }}</li>
+           </ul>
+
+           <hr>
+
+           <ul>
+               <!-- access array index -->
+               <li v-for="(color, index) in colors" :style="{color: color}">color #{{ index + 1 }}: {{ color }}</li>
+           </ul>
+
+           <hr>
+
+           <!-- using templates, template is omitted in the html, only things inside it is iterated and rendered -->
+           <template v-for="(color, index) in colors">
+               <h3 :style="{backgroundColor: color}">{{ color }}</h3>
+               <p :style="{color: color}">color #{{ index + 1 }}: {{ color }}</p>
+           </template>
+
+           <hr>
+
+           <ul>
+               <li v-for="person in people">
+                   <h3>{{ person.name }}</h3>
+                   
+                   <!-- its possible to iterate on the object keys -->
+                   <div v-for="(value, key, index) in person"><small>{{index+1}} {{key}}: {{value}}</small></div>
+                   
+
+               </li>
+           </ul>
+           
+           <hr>
+            <!-- iterating in numbers -->
+            <span v-for="number in 10">{{number}} </span>
+
+            <hr>
+
+            <!-- the attribute key is used for Vue to identify each element on a list. If the array is modified 
+                (sorted, got new elements, etc) it may not be re-rendered or rendered the wrong way. 
+                Also Vue performs better when there is a key with an unique value -->
+            <ul>
+                <li v-for="color in colors" :key="color">{{ color }}</li>
+            </ul>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    colors: ['red', 'green', 'blue', 'purple', 'orange', 'brown'],
+                    people: [
+                        { name: 'Felipe', age: 34, weight: 80 },
+                        { name: 'Eliria', age: 27, weight: 65 },
+                    ]
+                },
+            })
+        </script>
+    </body>
+</html>

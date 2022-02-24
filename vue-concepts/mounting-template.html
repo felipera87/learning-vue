@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Concepts</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        const vm = new Vue({
+            // there are other ways of mounting a vue object without specifying el property
+            // el: "#app",
+
+            // a template will be inserted when the object is mounted. Also it must return only one element (with its children)
+            template: `
+                <div>
+                    <h1>{{ title }}</h1>
+                    <button type="button" @click="updateTitle">update title</button>
+                </div>
+            `,
+            data: {
+                title: 'mounting and templates',
+            },
+            methods: {
+                updateTitle() {
+                    this.title = `${this.title}!`;
+                },
+            }
+        });
+
+        // this is one way to mount
+        // vm.$mount('#app');
+
+        // if template is specified, mount can be called without any arguments
+        vm.$mount();
+        document.querySelector('#app').appendChild(vm.$el);
+    </script>
+</body>
+</html>

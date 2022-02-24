@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VueJS first contact</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+        <style>
+            #app {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .squareContainer {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 30px;
+            }
+            
+            .square {
+                width: 150px;
+                height: 150px;
+                background-color: gray;
+            }
+            
+            .color-red {
+                background-color: red;
+            }
+            .color-green {
+                background-color: green;
+            }
+            .color-blue {
+                background-color: blue;
+            }
+
+            .scale {
+                transform: scale(1.2);
+                transition: transform 0.5s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- simple conditional class syntax: {classname: boolean_value} -->
+            <div class="squareContainer">
+                <!-- to use unconventional javascript names like dashes for example need to put between quotes -->
+                <div class="square" :class="{'color-red': applyColorRed}" @click="applyColorRed = !applyColorRed"></div>
+                <div class="square" :class="{'color-green': applyColorGreen}" @click="applyColorGreen = !applyColorGreen"></div>
+                <div class="square" :class="{'color-blue': applyColorBlue}" @click="applyColorBlue = !applyColorBlue"></div>
+            </div>
+
+            <!-- conditional class with more than one class: {classname1: boolean_value, classname2: boolean_value} -->
+            <div class="squareContainer">
+                <!-- double class condition (could be more than 1 class) -->
+                <div class="square" :class="{'color-red': applyColorRed, 'color-blue': !applyColorRed}" @click="applyColorRed = !applyColorRed"></div>
+                <!-- double class condition using computed properties -->
+                <div class="square" :class="doubleColorStyle" @click="applyColorGreen = !applyColorGreen"></div>
+            </div>
+            
+            <!-- classes as an array -->
+            <div class="squareContainer">
+                <!-- :class can take an array with many classes, can be a data property (which could change) or a static value (need quotes) -->
+                <div class="square" :class="[colorRedClassName, 'scale']" @click="applyColorRed = !applyColorRed"></div>
+                <!-- the array can take the conditional class syntax -->
+                <div class="square" :class="['color-green', {scale: !applyColorGreen}]" @click="applyColorGreen = !applyColorGreen"></div>
+            </div>
+            
+            <!-- css inline style -->
+            <div class="squareContainer">
+                <!-- inline style, as we have javascript code we can use camel case css properties -->
+                <div class="square" :style="{backgroundColor: colorName}"></div>
+                <!-- can take computed properties -->
+                <div class="square" :style="customInlineStyle"></div>
+                <!-- can take arrays -->
+                <div class="square" :style="[customInlineStyle, {opacity: 0.5}]"></div>
+
+            </div>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    applyColorRed: false,
+                    applyColorGreen: false,
+                    applyColorBlue: false,
+                    colorRedClassName: 'color-red',
+                    colorName: 'purple',
+                },
+                computed: {
+                    doubleColorStyle() {
+                        return {
+                            'color-blue': this.applyColorGreen,
+                            'color-green': !this.applyColorGreen,
+                        }
+                    },
+                    customInlineStyle() {
+                        return {
+                            backgroundColor: 'brown',
+                            transform: 'scale(1.1)',
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
